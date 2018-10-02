@@ -1,2 +1,2 @@
 # ustcpetergu.github.io
-Testing, don't take this serious.
+Yimin Gu's simple blog, to record my learning and tweaking experiences.
