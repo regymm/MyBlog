@@ -16,7 +16,7 @@
 title: Yimin Gu's Blog
 email: guyimin@mail.ustc.edu.cn
 description: >- # this means to ignore newlines until "baseurl:"
-        古宜民的简易博客，记录我的折腾经历和心得体会。
+        古宜民的简易博客，记录我的学习（折腾）经历和心得体会。
 baseurl: "" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: ustcpetergu
