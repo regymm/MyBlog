@@ -2,7 +2,7 @@
 layout:	post
 title:	"不要害怕命令行：一些个人的思考和理解"
 date:	2018-10-05 15:32:00 +0800
-categories: 
+categories: [Experience]
 ---
 ### 以下内容仅个人观点，不保证完全正确，甚至可能有误导性
 感觉很多人（包括编程的人）似乎对命令行和CLI都有一种恐惧，但了解命令行对于了解计算机，甚至是更好地写和调试代码都是很重要的。希望本文能帮助大家克服这种恐惧，打开终端迎接新世界。  
@@ -71,21 +71,78 @@ Usage: shutdown [/i | /l | /s | /r | /g | /a | /p | /h | /e] [/f]
 
 # 哪里有命令行？
 
+命令行属于与系统底层交互的工具，在几乎所有的操作系统上都是有的。Windows上有经典的命令提示符和PowerShell，Linux和Mac OS X都有自己的终端，Android（以及iOS）系统希望用户好好地使用系统而不是玩这种东西，所以没有提供命令行应用给普通用户，但如果进行app开发，都是有如adb这种工具访问手机等设备的终端的。
 
-# CLI和GUI
+如果不只看操作系统的终端，那么命令行的存在就更加广泛了。比如第三方程序也提供类似命令行的交互程序。最常见的可能就是Python的交互式解释器了：
 
-# 为什么要使用命令行（能干什么？）
+```
+Python 3.7.3 (default, Jun 24 2019, 04:54:02) 
+[GCC 9.1.0] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>> 
+
+```
+
+其他的，如lvm管理，diskpart、fdisk分区，也都大同小异。当然这只是形式上相似，具体的使用方法（比如支持什么命令）都不相同。
+
+如这个fdisk界面，输入了指令p查看分区表。
+
+```
+Welcome to fdisk (util-linux 2.34).
+Changes will remain in memory only, until you decide to write them.
+Be careful before using the write command.
+
+
+Command (m for help): p
+Disk /dev/sda: xxxx GiB, xxxx bytes, xxxx sectors
+Disk model: xxxx
+Units: sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 4096 bytes
+I/O size (minimum/optimal): 4096 bytes / 4096 bytes
+Disklabel type: gpt
+Disk identifier: xxxx
+
+Device          Start        End    Sectors   Size Type
+/dev/sda1   	(此处略去)
+/dev/sda2  
+/dev/sda3  
+/dev/sda4  
+
+Command (m for help): 
+
+```
+
+### 这说明什么？
+
+甚至只是想老实地写写代码，都不能完全避开使用命令行。所以命令行是学习计算机、编程等的基础。如果害怕不敢接触命令行，那么必然会处处受阻。
+
+那命令行到底能干什么呢？知道了能干什么，就有了学习它的动力。
+
+# 命令行能干什么？
 
 #### 系统上最强大的工具
+
+
+
 #### 认识并了解底层
 
 
-# 如何使用？
+# CLI和GUI
 
-#### 学好英语
+
+# 如何使用？新手Guide？
+
 #### 阅读输出的文字
-#### 查看帮助和手册
+#### 借助网络
 #### 有需求才有动力学习
 
-#注意事项
+#### 学好英语
+
+# 注意事项
+
+#### 不忘初心
+
+#### 注意安全
+
+
 
