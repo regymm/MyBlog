@@ -1,0 +1,216 @@
+---
+layout: post
+title: "SCGY机房还原系统：本地部分"
+data: 2019-08-06 22:17:00 +800
+categories: [Work]
+---
+
+By petergu 2019.8
+
+# Overview
+
+**Feature**
+
+无论机房本地电脑处于何种情况，硬盘何种状态，只要支持网络启动（在BIOS模式），就可以网启从主控室服务器拉取Win10系统和相关管理工具自动写入本地硬盘。
+
+之后本地机器可从本地（在UEFI模式）正常启动，进入GRUB引导，进而选择启动Win10（默认）、启动Ubuntu LiveCD、或执行本地系统还原（小还原，WinPE实现）。若本地磁盘状况被破坏，随时可以重新从网启还原（大还原）。
+
+大还原后需要手动进行一次小还原才能正常使用。
+
+正常开机后不做任何操作（包括按回车）会自动进入Win10。
+
+**操作流程等可见http://ourscgy.ustc.edu.cn/comp_index.html （TODO）**
+
+**Implementation**
+
+大还原：网络启动定制的tinycore，完成本地磁盘重新分区操作，下载并解压GRUB和WinPE，下载Ubuntu和Windows镜像。
+
+Windows镜像为VHD格式，单文件。直接引导启动。
+
+小还原：通过WinPE的自动脚本，复制Windows镜像到目标分区，覆盖旧的镜像，然后挂载镜像，重建Windows引导。
+
+Ubuntu LiveCD为ISO单文件，使用GRUB直接引导ISO内的Live系统启动。
+
+**Parameter**
+
+Windows镜像安装基本软件，不含MATLAB等大软件，大小为25-35 GB
+
+目前Windows版本为1709，更新时会出错，所以用一个小软件禁用了自动更新。
+
+Ubuntu LiveCD版本18.04，大小1.8 GB
+
+WinPE不到1G
+
+GRUB几十MB
+
+本地还原为机械硬盘拷贝速度，大概40MB/s ~ 60MB/s，不同机器硬盘性能稍有不同
+
+网络还原从千兆网拉镜像，单个机器能到75MB/s，多个机器同时会慢很多。
+
+# 1. 网启tinycore
+
+网启服务器部分和自动还原脚本运行前的部分由Zitan Liu完成。
+
+脚本打包在tinycore.gz这个initrd中。
+
+还原脚本`/opt/info.sh`由`/opt/scgy_recover.sh`调用。
+
+运行还原脚本前会提示输入密码。密码可以在还原脚本里看到，是`password`。
+
+脚本先检查机器型号是否正确，然后检查磁盘大小是否正确（1TB）。如果都正确，检查分区表是否正确，如果不正确，重新分区，抹掉所有数据。如果正确，格式化前三个系统分区，最后一个数据分区保留。这样可以保证多次运行大还原时不会抹掉D盘的数据。磁盘为GPT格式。
+
+分区情况：
+
+```
+200M FAT: GRUB,EFI
+80G NTFS: Windows镜像，WinPE，Ubuntu ISO
+100G NTFS: C盘，在用的Windows镜像
+剩余~700G NTFS: D盘，数据
+```
+
+之后grub.tar.gz下载到200M区，解压。
+
+下载ubuntu.iso，winpe.tar.gz, Sysv1.VHD（Windows镜像）到80G区，winpe解压。
+
+目前下载服务器为DL180机器，挂了个nginx，IP地址192.168.2.252，路径`/var/www/html/restore`
+
+创建`do_local_restore.flag`标签表示需要一次本地小还原才能使用，便于GRUB识别。但目前还没有这个feature。TODO
+
+脚本：https://gitee.com/libreliu/scgy-pxe-recovery的tinycore.gz
+
+**！**下载文件失败没有重试，没有警告，没有校验，有不可忽略的概率出现文件损坏的情况。TODO：Fix
+
+**！**所有分区大小和`sda`硬编码
+
+# 2. GRUB
+
+GRUB作为所有系统的引导器。在EFI分区，UEFI启动。
+
+WinPE（和引导）和Ubuntu位于80G分区(hd0,2)，正常Windows和引导位于100G分区(hd0,3)。
+
+启动指令：
+
+```
+menuentry "Start Windows Normally(default)" --unrestricted {
+        set root=(hd0,3)
+        chainloader /EFI/Microsoft/Boot/bootmgfw.efi.hid
+}
+menuentry "Do a C:\ drive restore" --unrestricted{
+        set root=(hd0,2)
+        chainloader /EFI/Boot/bootx64.efi.hid
+}
+menuentry 'Ubuntu 18.04 Live' --unrestricted{
+        set root=(hd0,2)
+        set isofile='/ubuntu.iso'
+        loopback loop $isofile
+        linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=/ubuntu.iso
+        initrd (loop)/casper/initrd.lz
+}
+```
+
+Windows的引导就是chainload那个efi文件，Ubuntu因为在ISO里所以先挂载，然后内核参数传一下。
+
+**！**为了防止出现一堆可以被电脑识别的启动项出麻烦，把Window和PE的efi文件重命名了，只留了200M分区里的`/efi/BOOT/BOOTx64.EFI`和`/efi/BOOT/grubx64.efi`（其实这两个应该是同一个文件）
+
+**！**若启动电脑时有U盘或移动硬盘接入，可能导致GRUB无法正确通过分区号找到本地分区进而无法启动。TODO：使用UUID查找磁盘
+
+**！**GRUB在启动时有几个warning（error：xxx mod not found之类的），不用管，但有些影响体验。
+
+# 3. WinPE
+
+WinPE用于本地小还原。由80G分区中的`/EFI/Boot/bootx64.efi.hid`引导。
+
+WinPE核心文件打包在`sources/boot.wim`中（可以用dism挂载，比较麻烦），里面的`C:\Windows\System32\`内有`Startnet.cmd`自动运行脚本，已经修改为查找各个分区根目录，找到`run.cmd`并运行。正常情况下run.cmd随WinPE解压到了80G分区中。
+
+脚本中D：为80G分区，E：为100G目标分区，Y：为挂载VHD的临时分区。其中运行了两个diskpart脚本，对复制过后的VHD进行引导创建。
+
+`esentutl`为带进度条的复制，`bcdboot`创建引导。
+
+run.cmd : 
+
+```powershell
+rem @echo off
+echo Restoration script by petergu
+echo SCGY-TECH 2019
+
+
+del E:\Sysv1.VHD
+esentutl /y D:\Sysv1.VHD /d E:\Sysv1.VHD /o
+diskpart /s D:\mountvhd.diskpart
+rd /s /q E:\EFI
+bcdboot Y:\Windows /s E: /f UEFI
+rd /s /q E:\EFI\Boot
+ren E:\EFI\Microsoft\Boot\bootmgfw.efi bootmgfw.efi.hid
+diskpart /s D:\umountvhd.diskpart
+
+
+echo Done. Reboot.
+wpeutil reboot
+```
+
+在VHD中，包含Windows的分区是第三个。物理硬盘编号0，VHD编号1。所以diskpart里disk 1 partition 3
+
+mountvhd.diskpart：
+
+```
+select vdisk file=E:\Sysv1.VHD
+attach vdisk
+select disk 1
+select partition 3
+assign letter=Y
+```
+
+umountvhd.diskpart：
+
+```
+select disk 1
+select partition 3
+remove letter=Y
+select vdisk file=E:\Sysv1.VHD
+detach vdisk
+```
+
+其实本来是想用Linux（tinycore）做这些操作的，但是因为Linux上没找到能创建Windows引导的工具，而在一台电脑上创建的引导拿到另一台电脑上就不能启动里，不知道是什么问题。所以就只能每台机器都创建引导，只能用WinPE了。
+
+关于WinPE可见微软doc
+
+https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/winpe-intro
+
+https://docs.microsoft.com/en-us/windows-hardware/manufacture/desktop/wpeinit-and-startnetcmd-using-winpe-startup-scripts
+
+**！**目前WinPE脚本中没有等待时间，启动后直接运行脚本，完成后立即重启，不便于调试和观察输出。
+
+**！**WinPE脚本内的分区号等内容硬编码，diskpart脚本硬编码，如果VHD内分区状况变化或本地前几个分区变化，就无法正常进行引导创建。所以不要随便改（尤其是VHD里的）分区。
+
+**!** Windows版本更新很可能修改分区（很讨厌），比如在C盘后面创建一个恢复分区，不知道会不会有影响。
+
+# 4. VHD
+
+为了方便维护把整个Window系统打包在VHD（dynamic）里了，Windows没有启动时整个系统是单个文件，比较方便复制，如果是几万个小文件，还原的时候肯定到不了现在的速度。还有一个好处就是能比较方便的直接挂在虚拟机上启动（见future maintenance）。
+
+用disk2vhd可以在线把Windows分区打包成VHD/VHDX。
+
+VHD本身不能直接启动，还是需要Windows的引导才能启动，引导当然也需要在VHD外面，直接放在物理硬盘里面，这也电脑启动时才能读到引导（指望UEFI固件直接读VHD当然不行），然后引导就能读VHD里头的东西然后启动了。~~就像你的Linux如果加密了根分区或者挂的LVM就要把boot分区单独分出来，驱动在initrd里，GRUB不能直接读那些奇奇怪怪分区~~所以就有了run.cmd里的创建引导。
+
+VHD的分区格式大概是总共80G，前面2G的EFI分区但没用，然后20G的空闲分区也没用，最后是60G的C盘。当时随手找了个系统打包的就成这个奇怪样子了。
+
+Windows上可以用像diskpart脚本里那种方法挂载，也可以直接在磁盘管理里挂载，然后给个盘符就能直接访问。
+
+**！**VHD在被物理机器启动时会将其容量扩大到原来整个磁盘容量（我们的是80G），关机后会恢复为原来大小。所以注意磁盘空间够不够。如果重新打包VHD需要用hypervisor的工具把VHD容量缩小一下，微软doc有教程。
+
+**！**为了能在Virtualbox等虚拟机里使用，没用新一些的VHDX格式。
+
+# Future Maintenance
+
+更新Windows镜像：找一台机器操作，然后scp传到服务器上就行了。或者可以直接拷贝走然后用虚拟机维护，之后再传服务器，虚拟机能直接挂VHD。VHD里没有引导（虽然理论上可以有并且应该有），虚拟机不能直接启动，找个GRUB手动chainload一下，应该是`chainloader (hd0,3)/EFI/Boot/bootx64.efi`。注意这时在虚拟机里相当于是直接从正常硬盘启动的，没VHD的事了。
+
+调试WinPE：把自动脚本停掉之后，可以用cmd再开几个终端，然后开notepad能编辑脚本，还比较方便。
+
+更新tinycore：在https://gitee.com/libreliu/scgy-pxe-recovery或SCGY NAS上下载tinycore.gz，解压后修改内容，再重新打包。gitee上有`make_initrd.sh`。
+
+# TODO
+
+机房旧的联想机器可能是因为UEFI比较旧，似乎不会自动在本地磁盘上查找EFI启动项（但外接U盘是会的），所以进行还原后虽然有EFI启动项，但不能被识别，不能启动。所以暂时不能自动还原。目前尝试结果是在Ubuntu LiveCD中进行一次`grub-install`后能work，可能和EFI变量有关。或许efibootmgr一下能好。
+
+
+
