@@ -1,6 +1,6 @@
 ---
 layout:	post
-title:	"不要害怕命令行：一些个人的思考和理解"
+title:	"不要害怕命令行：一些个人的思考和理解(not finished)"
 date:	2018-10-05 15:32:00 +0800
 categories: [Experience]
 ---
@@ -125,6 +125,8 @@ Command (m for help):
 
 
 #### 认识并了解底层
+
+
 
 
 # CLI和GUI

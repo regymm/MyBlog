@@ -81,7 +81,7 @@ It works, but not without problems. The Chinese input method just won't work in 
 
 By the way, there is a tool called `xchroot` (or `arch-chroot` in ArchLinux) that can automatically do those bind mounts.
 
-# 3. "Dual" boot with GRUB
+# 4. "Dual" boot with GRUB
 
 Scenario: You have migrated to Linux, but still need to use Windows in VM sometimes. You hate reboot your computer to another OS, closing all those working windows which have already filled several virtual desktops. 
 
@@ -93,14 +93,43 @@ As by default, Win10 is install to a big NTFS partition, but it's bootloader is 
 
 The grub ISO file can be made by `grub-mkrescue -o grub.iso` command. Or simpler, just take a Ubuntu (or other distro) LiveCD, it'll contain a grub bootloader, boot the LiveCD, press `c` at the boot menu, then there will be a grub commandline. With a grub commandline, you have power to boot other EFI files(Like Windows bootloader), directly load and boot Linux, load another grub, boot directly into ISO LiveCD, and much more. Maybe I'll write a passage on this later? 
 
+**So do you think this configuration is safe, or it will corrupt your drive one day?**
 
+For me it's pretty safe. I did a lot of bad stuffs, including force reboot(both host and guest), force shutdown during Windows Update, and delete then recreate the Windows boot loader accidentally. If I shutdown Windows by force during update when running physically, then boot it in VM, Windows may fail to boot. But this can be easily solved by run it again physically and let everything finish. Sometimes I need a `chkdsk` in Windows. But I **never** used the Windows C: volume in Linux while running the Windows in the volume in a VM: this may cause damage!!! 
 
+**Am I satisfied?**
 
+However, I don't use this configuration frequently, because Win10 has too much stuff running in the background( mostly spyware and malware I guess =) ), so my laptop heats a lot and the fan keeps running at high speed. I hate both. 
 
-However, I don't use this configuration frequently, because Win10 has too much stuff running in the background( mostly spyware and malware I guess =) ), so my laptop heats a lot and the fan keeps running at high speed. I hate both. Win7 is better for me. But probably Win7 cannot be booted both in VM and physical machine as Win10. I tried it but failed, and didn't try further, though I think I can succeed. I gave up partly because my 8th generation Intel processor does not officially support Win7.  And as Virtualbox doesn't support Win7 to boot in UEFI mode but I prefer Virtualbox to VMWare and others. Why UEFI mode? because my disk is GPT, it also shows up as GPT in VM, and GPT disk doesn't support BIOS boot. If you really want to try disk, think twice. What I get best is, I copied the Win7 in Virtualbox to a physical partition(GPT disk), setup UEFI boot in VMWare successfully, then I tried to boot this monster physically. It went to black screen, but I can here the boot sound, and after typing `Windows+R` then `shutdown /s /t 0` then Enter, I can here the shutdown sound and the computer turned off peacefully. It's the driver problem I thought, if I were able to inject drivers, I may succeed? Tired of it though. Never want to try again. 
+Win7 is better for me. But probably Win7 cannot be booted both in VM and physical machine as Win10. I tried it but failed, and didn't try further, though I think I can succeed. I gave up partly because my **8th generation Intel processor does not officially support Win7**.  And as Virtualbox doesn't support Win7 to boot in UEFI mode but I prefer Virtualbox to VMWare and others. Why UEFI mode? because my disk is GPT, it also shows up as GPT in VM, and GPT disk doesn't support BIOS boot. If you really want to try disk, think twice. What I get best is, I copied the Win7 in Virtualbox to a physical partition(GPT disk), setup UEFI boot in VMWare successfully, then I tried to boot this monster physically. Really crazy. It went to black screen, but I can here the boot sound, and after typing `Windows+R` then `shutdown /s /t 0` then Enter, I can here the shutdown sound and the computer turned off peacefully. It's the driver problem I thought, if I were able to inject drivers, I may succeed, and I'm really close to success. Tired of it though. Never want to try again. 
 
-# 4. "Dual" Boot VHD 
+Also, this requires you to run the VM as root because reading physical partitions needs root. And as my primary VM, I wants to share host folders with the VM. But the VM runs as root, the files the VM created is owned by root, but the folders I want to share belongs to **me the user**, not **me the root**. These permission problems are awful. 
 
+# 5. "Dual" Boot VHD 
 
+Again, you want to boot something(probably Windows) both physically and in VM. And you are not satisfied with dealing with partitions: so, what if you can store a whole OS in a file? VHD does it. Windows can be install into a VHD file, and the file can be booted physically, or in virtual machine softwares like virtualbox and hypervisor. If you are fortunate enough, you can boot the file both in VM and physically! Win10 VHDs will definitely do this, and Win10 will adjust itself for the new hardware environments. But Win7 will probably fail, the driver just sucks. I tried really hard, but never succeed, it will just BSOD no matter what I do. 
 
-# 4. GPU intensive jobs on Linux?
+Some tips: 
+
+- Win7 ultimate and home edition cannot do the boot, only enterprise can do. But there are softwares to circumvent it. 
+
+- The VHD will expand to it's maximum size when being boot physically, and shrink after shutdown. So make sure you have enough space. 
+- Again, you need to first attach the VHD in Windows(maybe WinPE) and create a boot loader before you can boot the system. 
+
+My other blog passage "SCGY机房还原系统：本地部分" contains some further information about booting VHD and its application(Computer room restoration project). 
+
+# 6. Wanna have a taste of macOS?
+
+Despite extremely low graphical performance, macOS can run in VM! I can run macOS High Sierra in Virtualbox without any problems. You can easily download a installation disk on google drive and follow a detailed tutorial telling you how to make the OS think that you are running it on Apple's hardware. 
+
+I didn't investigate further, and don't know whether graphical performance can be increased with other cheatings. But if you just want to have a look of the system, or register an AppleID using Safari, or run some commands that runs only on macOS, you can do it. 
+
+# 7. GPU intensive jobs on Linux?
+
+So, it comes to GPU passthrough. I tried twice and failed twice. Hours spent and tens of gigabytes of disk space used, nothing happened at all. May be one day on desktop PCs I can succeed? Now I have given up trying to do this on my laptop which has a low-end AMD GPU. I'll having difficulty running Photoshop in VM due to lack of graphic memory, but actually I seldom use Photoshop, don't I?
+
+But don't be afraid... Many people on the Internet have done it successfully, and detailed tutorials are available everywhere. Waiting for your(and my) good news!
+
+# May update later...
+
+I'll update this if I find other interesting uses of virtual machines!
