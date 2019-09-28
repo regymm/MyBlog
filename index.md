@@ -5,7 +5,8 @@
 layout: home
 ---
 
-<h1>Why not have a rest here, wanderer?</h1>
+<!--<h1>Why not have a rest here, wanderer?</h1>-->
+<h1>Well, you come. Then welcome. </h1>
 <style>
 body{
 /*background-color:#002B36;*/
@@ -15,8 +16,9 @@ body{
 
 }
 </style>
-
-<p style="color:black;" id="curs">Yimin Gu's homepage </p>
+<style>
+/*
+<!-- <p style="color:black;" id="curs">Yimin Gu's homepage </p> --!>
 <script>
 /*var con = $('.curs');*/
 function sleep(ms) {
@@ -45,3 +47,5 @@ async function start(){
 }
 start();
 </script>
+*/
+</style>
