@@ -13,14 +13,14 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Yimin Gu's Blog
+title: Yimin Gu's Homepage
 email: guyimin@mail.ustc.edu.cn
 description: >- # this means to ignore newlines until "baseurl:"
-        古宜民的简易博客，记录我的学习（折腾）经历和心得体会。
-        Yimin Gu's simple blog, to record my studing(and tweaking) experience.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: ustcpetergu
+baseurl: "/MyBlog" # the subpath of your site, e.g. /blog
+        #古宜民的简易博客，记录我的学习（折腾）经历和心得体会。
+        #Yimin Gu's simple blog, to record my studing(and tweaking) experience.
+url: "https://ustcpetergu.github.io/MyBlog" # the base hostname & protocol for your site, e.g. http://example.com
+#twitter_username: ustcpetergu
 github_username:  ustcpetergu
 
 # Build settings
