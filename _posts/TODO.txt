@@ -1,0 +1,5 @@
+Finish commandline guide.
+
+Write an article about my program optimizing of the summer camp program(hamonic oscilator MCMC simulation)
+
+On GRUB?? Multi-boot USB?

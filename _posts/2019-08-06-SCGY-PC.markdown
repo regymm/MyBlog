@@ -2,7 +2,7 @@
 layout: post
 title: "SCGY机房还原系统：本地部分"
 data: 2019-08-06 22:17:00 +800
-categories: [Work]
+categories: [Project]
 ---
 
 By petergu 2019.8

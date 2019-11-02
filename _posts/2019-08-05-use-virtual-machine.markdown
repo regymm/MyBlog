@@ -2,7 +2,7 @@
 layout: post
 title: "Virtual Machine the Personal Uses"
 data: 2019-08-05 19:47:00 +800
-categories: [Experience, Tips]
+categories: [Experience]
 ---
 
 I've been using virtual machines since I'm in high school. I thought it's cool then, and still now. I'm just an ordinary student and use computers to do daily tasks, and some programming and some funny things. But virtual machine can still make my(and our) life much easier and funny! Here are my funny experience of using virtual machines, and you may also want a try =)

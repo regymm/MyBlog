@@ -2,7 +2,7 @@
 layout: post
 title: "Experience About Phone Flashing"
 data: 2019-06-09 11:43:00 +800
-categories: [Tweaking, Personal]
+categories: [Experience]
 ---
 
 After 8 months I finally want to continue on my blog, in the three-day-vocation of the Chinese Dragon Boat Festival. 
