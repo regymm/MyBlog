@@ -5,8 +5,6 @@
 layout: home
 ---
 
-<!--<h1>Why not have a rest here, wanderer?</h1>-->
-<h1>Well, you come. Then welcome. </h1>
 <style>
 body{
 /*background-color:#002B36;*/
