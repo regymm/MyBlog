@@ -1,0 +1,19 @@
+<br/>
+<hr/>
+<br/>
+<div id="container"></div>
+<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+const gitment = new Gitment({
+  id: 'Your page ID', // optional
+  owner: 'ustcpetergu',
+  repo: 'MyBlog',
+  oauth: {
+    client_id: '7553e95a3f226daf16d3',
+    client_secret: '8ca2d5db20d879da5abb4772c0c1f194f083bd33',
+  },
+})
+
+gitment.render('container')
+</script>
