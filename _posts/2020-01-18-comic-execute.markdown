@@ -9,6 +9,6 @@ By petergu 2019.11
 
 So yet another silly comic!
 
-Have you done this before? Do you (still?) fill guilt for it? 
+Have you done this before? Do you (still?) feel guilt for it? 
 
 ![](/MyBlog/images/mypaint-execute.png)
