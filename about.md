@@ -3,7 +3,8 @@ layout: page
 title: About
 permalink: /about/
 ---
-![My Icon](./icon.png)
+![My Photo](/images/mypic3.jpg){:width="50%"}
+<!--<img src="/images/mypic3.jpg" width="60%"/>-->
 ## 关于我/About Me
 中国科学技术大学2017级少年班学院物理专业学生，热爱物理、编程。  
 I'm a student at University of Science and Technology of China, School of the Gifted Young, grade 2017. Major in physics. Love physics and programming. 

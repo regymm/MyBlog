@@ -5,6 +5,9 @@
 layout: home
 ---
 
+<h3 style="color:red; font-family:consolas;">[2020-01-19]Disqus comment system now online!</h3>
+<h3 style="color:red; font-family:consolas;">You may need a proxy to use!</h3>
+
 <style>
 body{
 /*background-color:#002B36;*/
