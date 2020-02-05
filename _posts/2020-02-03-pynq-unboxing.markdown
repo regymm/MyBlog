@@ -18,7 +18,7 @@ The boxing is simple: a paper box contains the board, some pink protecting foam 
 
 In the middle of the pink(pynq~pink?) PCB is the ZYNQ xz7z020 SoC. On the four side there are peripherals as described on the [Digilent reference](https://store.digilentinc.com/pynq-z1-python-productivity-for-zynq-7000-arm-fpga-soc/). Compared to other boards, it has an HDMI sink port, but don't have much LED or any 7-segment display. The footpads on the back make me feel safe. 
 
-Compared to other Digilent boards this one looks pretty "simple": not much chip components and most area is bare PCB. Before the board arrives I think it's quite rough and have a little doubt about the quality(considering the low price compared to other boards like ZYNQ or Nexys), but when holding it in my hand I find it really delicate and secure. 
+Compared to other Digilent boards this one looks pretty "simple": not much chip components and most area is bare PCB. Before the board arrives I think it's quite rough and have a little doubt about the quality(considering the low price compared to other boards like ZYBO or Nexys), but when holding it in my hand I find it really delicate and secure. 
 
 ## Tutorial Begin Now
 
