@@ -1,0 +1,85 @@
+---
+layout: post
+title: "PYNQ Tutorial 3: Custom IP core and the Block Design"
+data: 2019-02-20 15:00:00 +800
+comments: true
+categories: [Tutorial]
+---
+
+This is the third part of the PYNQ tutorial series. This article is about the usage of custom IP cores and block designs. Actually these are board independent: they are just Vivado tricks and Verilog, nothing is specific to PYNQ, we don't even need to run synthesis. 
+
+I didn't found any material about these subjects in our school's related courses and had a hard time dealing with these, so I decide to make a tutorial. 
+
+## Create a Custom IP Core
+
+Create and package a new IP is just turning your existing module into a library which can be used by other Verilog programs, which is actually very easy. 
+
+I have a small module which delay the input signal whose width may vary for a clock cycle, let's use this as example:
+
+```verilog
+`timescale 1ns / 1ps
+
+module delaypass #(parameter W = 32)
+(
+input clk,
+input [W-1:0]din,
+output reg [W-1:0]dout
+);
+always @ (posedge clk) begin
+    dout <= din;
+end
+endmodule
+```
+
+Two input, one output, one configurable parameter. And of course, having a Vivado project contains this as it's top module(here called `delaypass`). Quite simple. 
+
+What to do next?
+
+In the top menu bar, choose `Tools->Create and Package New IP...`.
+
+Hit next, then the default option `Package your current project`(Just as the description, we are going to use the whole project as a new IP. We may encounter the AXI4 Peripheral in next tutorial but for now just ignore that) and next again. 
+
+Then choose the location. It's easy to mess up here(relax, this kind of mess up often doesn't matter), and to choose the location *inside* the project seems to be a plausible way for me. Here I just choose `delaypass` the project root directory. If you are doing this again and again you'll need to hit `Overwrite` in the prompt. It doesn't matter. Then hit Finish.
+
+You'll see a packager like this:
+
+![](/MyBlog/images/pynq/packager.png)
+
+,where you can specify name and version of the IP. Then jump to the `Review and Package` tab and hit `Package` at the bottom. You'll see the IP created in the `delaypass` directory: there's a `component.xml` file containing the IP info, you can have a check. 
+
+After that an `Edit Packaged IP` option will occur on the left side, just below `IP Catalog`, hit it and the packager will show up again and you can modify your IP. 
+
+But of course, you can also redo the `Create and Package New IP...` process and overwrite instead, which, for me, seems to be able to avoid *many* frustrating problems, and actually save my time. 
+
+There are many more tricks and traps about this process, some are shown below and more are up to you to find. 
+
+## Use the Core
+
+Let's try to use our packaged IP core in another project: here the `ip_test_and_bd`. 
+
+Of course Vivado won't know your IP core which is now lying in a corner of your disk, so first go to `PROJECT MANAGER->Settings->IP->Repository`, and add the `delaypass` directory. You'll see the friendly notification that 1 IP is added. 
+
+Then go to IP Catalog the same as before, search for `delaypass`, and our IP appears:
+
+![](/MyBlog/images/pynq/ipcatalog.png)
+
+Choose it and customize(though there are not too much to customize), then OK as normal:
+
+![](/MyBlog/images/pynq/delaypass.png)
+
+You see on the left graph input and output ports are shown, and on the right side is customization, just like in existing ones like this adder(though the adder is more complex):
+
+![](/MyBlog/images/pynq/ipadder.png)
+
+Then the IP core is in your project, just use it like others ones! For example, try the simulation sourse:
+
+```verilog
+
+```
+
+Now maybe IP cores are no longer mysterious to you any more! 
+
+## Use a Block Design
+
+If you look up some ZYNQ tutorial, then probably you've seen those eyesore "block designs". But after reading this you may find them acceptable. 
+
