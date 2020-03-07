@@ -120,7 +120,7 @@ Hoping that IP cores are no longer mysterious to you any more!
 
 ## Use a Block Design
 
-If you look up some ZYNQ tutorial, then probably you've seen those eyesore "block designs", which you cannot circumvent. But after reading this you may find them acceptable. 
+If you look up some ZYNQ tutorial, then probably you've seen those eyesore "block designs",  and you cannot circumvent them as far as I know. But after reading this you may find them acceptable. 
 
 Block designs are to make things easier: Imagine you need to wire up a lot of IP cores, like adders multipliers, and our own `delaypass`, there are more than ten of these. So you'll feel very annoyed if you need to write these in Verilog: all these IPs and all connecting wires, to write by hand!
 
@@ -150,7 +150,7 @@ The finished block design:
 
 ![](/MyBlog/images/pynq/bd4.png)
 
-You can choose to auto-clean it using the "Regenerate Layout"(the reboot-like symbol on top), but just like in LabVIEW, if the diagram is small you can just lazily write a messed-up panel then auto-clean it, while when the diagram is big(e.g. filles the entire monitor screen), you'll be completely lost after auto-clean and unavoidably have to undo the auto-clean. 
+You can choose to auto-clean it using the "Regenerate Layout"(the reboot-like symbol on top), but just like in LabVIEW, if the diagram is small you can just lazily write a messed-up panel then auto-clean it, while when the diagram is big(e.g. fills the entire monitor screen), you'll be completely lost after auto-clean and unavoidably have to undo it. 
 
 Now let's add another simulation file and have a try: 
 
@@ -201,4 +201,8 @@ Fire up a simulation and change radix to decimal:
 
 You see, we get the result O=(A+B)*C after two cycles, and because of the pipeline we can get one result per each cycle. 
 
-*It's the end.*
+## What's Next
+
+In the next tutorial let's go back to PYNQ. We'll do a simple and **painless** PS/PL communication. 
+
+*It's the end. At least for now.*
