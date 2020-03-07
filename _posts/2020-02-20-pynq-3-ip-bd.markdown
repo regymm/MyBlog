@@ -10,6 +10,14 @@ This is the third part of the PYNQ tutorial series. This article is about the us
 
 I didn't found any material about these subjects in our school's related courses and had a hard time dealing with these, so I decide to make a tutorial. 
 
+You may need basic knowledge about Vivado design procedure(like create source code file, run simulation and use IP core) to understand this.
+
+**Notice:**
+
+Projects and source code used in this and the following tutorials are available at Github here: [github.com/ustcpetergu/PYNQ-Tutorial-Material](https://github.com/ustcpetergu/PYNQ-Tutorial-Material). 
+
+Aiming at simple-to-use, these Vivado projects are directly added to git, instead of using better tcl methods. You can directly open the `.xpr` project files in Vivado and run simulations & other things. 
+
 ## Create a Custom IP Core
 
 Create and package a new IP is just turning your existing module into a library which can be used by other Verilog programs, which is actually very easy. 
@@ -43,7 +51,7 @@ Then choose the location. It's easy to mess up here(relax, this kind of mess up 
 
 You'll see a packager like this:
 
-![](/MyBlog/images/pynq/packager.png)
+![](/MyBlog/images/pynq/packager.jpg)
 
 ,where you can specify name and version of the IP. Then jump to the `Review and Package` tab and hit `Package` at the bottom. You'll see the IP created in the `delaypass` directory: there's a `component.xml` file containing the IP info, you can have a check. 
 
@@ -51,7 +59,7 @@ After that an `Edit Packaged IP` option will occur on the left side, just below 
 
 But of course, you can also redo the `Create and Package New IP...` process and overwrite instead, which, for me, seems to be able to avoid *many* frustrating problems, and actually save my time. 
 
-There are many more tricks and traps about this process, some are shown below and more are up to you to find. 
+There are many more tricks and traps about this process, some are shown below and more are up to you to find. Buy anyway, packaging IP is much easier than(and should be, if you've got used to it) writing your project code, isn't it?
 
 ## Use the Core
 
@@ -71,15 +79,126 @@ You see on the left graph input and output ports are shown, and on the right sid
 
 ![](/MyBlog/images/pynq/ipadder.png)
 
-Then the IP core is in your project, just use it like others ones! For example, try the simulation sourse:
+Then the IP core is in your project, just use it like others ones! For example, try the simulation source:
 
 ```verilog
+`timescale 1ns / 1ps
 
+module delaypass_test();
+
+reg clk = 0;
+always @(*) #10 clk <= ~clk;
+
+reg [3:0]din;
+wire [3:0] dout;
+
+delaypass_0 #(.W(4)) delaypass_inst
+(
+    .clk(clk),
+    .din(din),
+    .dout(dout)
+);
+
+initial begin
+#2
+din = 4'b0000;
+#20
+din = 4'b0100;
+#20
+din = 4'b1100;
+#20
+din = 4'b0110;
+#20
+din = 4'b1101;
+#60
+$stop;
+end
+endmodule 
 ```
 
-Now maybe IP cores are no longer mysterious to you any more! 
+Hoping that IP cores are no longer mysterious to you any more! 
 
 ## Use a Block Design
 
-If you look up some ZYNQ tutorial, then probably you've seen those eyesore "block designs". But after reading this you may find them acceptable. 
+If you look up some ZYNQ tutorial, then probably you've seen those eyesore "block designs", which you cannot circumvent. But after reading this you may find them acceptable. 
 
+Block designs are to make things easier: Imagine you need to wire up a lot of IP cores, like adders multipliers, and our own `delaypass`, there are more than ten of these. So you'll feel very annoyed if you need to write these in Verilog: all these IPs and all connecting wires, to write by hand!
+
+Then you'll image what things will be like if you can just maintain these IPs and wires in a graph, and do connections by simply dragging mouse: this is what the block design will do for you. (If you've used LabVIEW you'll be quite familiar with this) 
+
+And after that, you can use the block design the same as a normal module: which, if to be written by your hand, may take an infinite amount of time. 
+
+Now get down to the point. 
+
+Click `Create Block Design` on the left panel. OK. And you get an empty diagram. Right click and `Add IP...`, you can try to add a few IP cores, like an adder(1 cycle delay), a multiplexer(1 cycle delay), and a delaypass, and customize them. For example, turn all width to 32. Drag to place them like this:
+
+![](/MyBlog/images/pynq/bd1.png)
+
+Use mouse to drag wire: 
+
+![](/MyBlog/images/pynq/bd2.png)
+
+Right click at blank to add some input and output: A B C as input, clk as input, O as output. Let the clk to be 100Mhz is OK. 
+
+![](/MyBlog/images/pynq/bd3.png)
+
+Now you may have figured out what we are doing: calculate `O=(A+B)*C` with 2 cycle delay, with pipeline. 
+
+Then connect the wires. You can use the "Connection Automation" to automatically connect some parts(like clocks): now it's not necessary, but if the block design is an order of magnitude larger, you'll find this function extremely useful. 
+
+The finished block design:
+
+![](/MyBlog/images/pynq/bd4.png)
+
+You can choose to auto-clean it using the "Regenerate Layout"(the reboot-like symbol on top), but just like in LabVIEW, if the diagram is small you can just lazily write a messed-up panel then auto-clean it, while when the diagram is big(e.g. filles the entire monitor screen), you'll be completely lost after auto-clean and unavoidably have to undo the auto-clean. 
+
+Now let's add another simulation file and have a try: 
+
+```verilog
+`timescale 1ns / 1ps
+
+module bdtest();
+
+reg clk = 0;
+always @(*) #10 clk <= ~clk;
+
+reg [31:0]A = 0;
+reg [31:0]B = 0;
+reg [31:0]C = 0;
+wire [31:0]O;
+
+design_1 design_1_inst
+(
+    .clk(clk),
+    .A(A),
+    .B(B),
+    .C(C),
+    .O(O)
+);
+
+initial begin
+#2
+A = 1;
+B = 1;
+C = 1;
+#20
+A = 2;
+B = 2;
+C = 2;
+#20
+A = 4;
+B = 9;
+C = 10;
+#60
+$stop;
+end
+endmodule
+```
+
+Fire up a simulation and change radix to decimal:
+
+![](/MyBlog/images/pynq/bdwave.png)
+
+You see, we get the result O=(A+B)*C after two cycles, and because of the pipeline we can get one result per each cycle. 
+
+*It's the end.*
