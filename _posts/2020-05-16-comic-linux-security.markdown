@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Comic]Linux Security"
-data: 2019-05-16 22:00:00 +800
+data: 2020-05-16 22:00:00 +800
 comments: true
 categories: [Comic]
 ---

@@ -1,0 +1,139 @@
+---
+layout: post
+title: "EBAZ4205矿板上手评测"
+data: 2020-07-01 20:00:00 +800
+comments: true
+categories: [Experience]
+---
+
+**算是摘要吧**
+
+闲鱼40入手的矿机控制板，搭载ZYNQ7010（双核ARM A9+Artix7逻辑），捡来玩玩，网上教程不少，就说下踩的坑...
+
+供电5-12V，比较随意，但USB直接供电应该是不太够，建议USB升压模块，不过上4节1.5V电池也不是不行。
+
+板载NAND上有uboot和petalinux，那个抹掉密码之后直接能用不过没啥可玩的。
+
+其实正常玩法是JTAG或者SD卡启动，和常规ZYNQ板子一样，可是Xilinx的JTAG调试器比板子还贵很不爽（其实或许可以随便买个ft2232自己烧eeprom...嘿嘿「[FT2232 to Digilent JTag for Xilinx FPGAs (ISE/Vivado)](https://gist.github.com/FrancisGuo/20c2c6df8e9f72fe295b785798e2fb41)」），我又没信心手焊SMT改电阻（SD卡槽3天都没焊好），所以就还是NAND启动（暂时只玩PL）：
+
+焊上UART排针（这个逃不掉的，我那个板子焊盘都长铜绿了经常接触不良...要是乱码/不能输入，首先怀疑接触不良）,开机按d进uboot之后连上网线，电脑开TFTP，从TFTP下载然后烧写比特流，这应该是改硬件最少的方案了
+
+比特流需要用bootgen转成.bin，网上有现成的tcl脚本
+
+有个问题是这个板子ethernet挂在PL上，所以加载比特流之后网就没了，解决方法在PS里设置一下把ethernet的线从EMIO绕过去，网上有个教程说了。
+
+PL没晶振所以时钟得用PS给，然后，除了GPIO之外挂在PL上的资源应该就两个LED了... GPIO的话排针是2.0的所以标准杜邦线插不进去
+github上有个注释的电路图，看那个写xdc就行，GPIO好像接在了不同类型的引脚上面不过一样用...
+
+建议配件：2.54排针，USB升压模块，USB转UART，2.0转2.54排线，加板子总共成本不到60（当然，就像主机配置单不写键鼠显示器，这里也没写电烙铁/万用表/...）
+
+其实，淘宝开源骚客有现成的扩展板和焊好排线/SD卡座的板子
+
+---
+
+
+
+**图片**
+
+接出来几个LED和开关，PL也接到UART一个
+
+![](/MyBlog/images/ebaz4205-1.png)
+
+合影，PYNQ-Z1和没用过几次的AT89S51
+
+![](/MyBlog/images/ebaz4205-2.png)
+
+---
+
+
+
+**一些细节**
+
+清除板载Linux密码：「[EBAZ4205 ZYNQ 7Z010原始LINUX系统的修改与使用](https://blog.csdn.net/zhys2007/article/details/106175366)」，里面做JFFS2那个地方有个小typo，应该是`--pad=`，最后生成的文件要和原来一样大才对
+
+小心，要是把uboot抹了就只能焊SD卡槽从SD卡启动了
+
+不过这个Linux应该是内核比较小，没fpga_manager，写比特流有点费劲
+
+uboot启动指令序列：
+
+```
+<press d>
+setenv serverip 192.168.6.6
+setenv ipaddr 192.168.6.136
+tftpboot 0x100000 bd_hello_wrapper.bit.bin
+fpga load 0 0x100000 0x1fcba0
+
+reset
+```
+
+照着教程改改设备树编译个内核也没问题（参考「[zynq[2] Linux from scratch](https://hhuysqt.github.io/zynq2/)」，看着吓人其实还行，然后我Arch GCC版本太高，又开的Ubuntu虚拟机。好在编译时间不长）：
+
+```
+tftpboot 0 dtb.dtb
+tftpboot 8000 uImage
+tftpboot 1000000 uramdisk.image.gz
+bootm 8000 1000000 0
+```
+
+这个就有fpga_manager了，然后可以编译个fpgautil用用，但是ramdisk空间有问题，动不动就空间不够，用着不太舒服。
+
+以太网解决的XDC：
+
+参考这篇文章「[zynq[1] 矿板helloworld](https://hhuysqt.github.io/zynq1/)」，注意ENET0左边有个小箭头，要点开那个然后把MDIO也选上，然后PS上的MDIO直接引出来然后给上这个XDC就没问题了
+
+```
+set_property IOSTANDARD LVCMOS33 [get_ports ENET0_GMII_RX_CLK_0]
+set_property IOSTANDARD LVCMOS33 [get_ports ENET0_GMII_TX_CLK_0]
+set_property IOSTANDARD LVCMOS33 [get_ports {enet0_gmii_rxd[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {enet0_gmii_rxd[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {enet0_gmii_rxd[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {enet0_gmii_rxd[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {ENET0_GMII_TX_EN_0[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {enet0_gmii_txd[3]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {enet0_gmii_txd[2]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {enet0_gmii_txd[1]}]
+set_property IOSTANDARD LVCMOS33 [get_ports {enet0_gmii_txd[0]}]
+set_property IOSTANDARD LVCMOS33 [get_ports ENET0_GMII_RX_DV_0]
+
+set_property IOSTANDARD LVCMOS33 [get_ports MDIO_ETHERNET_0_0_mdc]
+set_property IOSTANDARD LVCMOS33 [get_ports MDIO_ETHERNET_0_0_mdio_io]
+
+set_property PACKAGE_PIN U14 [get_ports ENET0_GMII_RX_CLK_0]
+set_property PACKAGE_PIN U15 [get_ports ENET0_GMII_TX_CLK_0]
+set_property PACKAGE_PIN Y17 [get_ports {enet0_gmii_rxd[3]}]
+set_property PACKAGE_PIN V17 [get_ports {enet0_gmii_rxd[2]}]
+set_property PACKAGE_PIN V16 [get_ports {enet0_gmii_rxd[1]}]
+set_property PACKAGE_PIN Y16 [get_ports {enet0_gmii_rxd[0]}]
+set_property PACKAGE_PIN W19 [get_ports {ENET0_GMII_TX_EN_0[0]}]
+set_property PACKAGE_PIN W16 [get_ports ENET0_GMII_RX_DV_0]
+set_property PACKAGE_PIN Y19 [get_ports {enet0_gmii_txd[3]}]
+set_property PACKAGE_PIN V18 [get_ports {enet0_gmii_txd[2]}]
+set_property PACKAGE_PIN Y18 [get_ports {enet0_gmii_txd[1]}]
+set_property PACKAGE_PIN W18 [get_ports {enet0_gmii_txd[0]}]
+
+set_property PACKAGE_PIN W15 [get_ports MDIO_ETHERNET_0_0_mdc]
+set_property PACKAGE_PIN Y14 [get_ports MDIO_ETHERNET_0_0_mdio_io]
+```
+
+top的block design，右下角我真正的模块打包成IP核了
+
+![](/MyBlog/images/ebaz4205-3.png)
+
+bit转bin
+
+```tcl
+proc gen_bin {bit} {
+    set filename [file rootname [file tail $bit]].bif
+    set fileId [open $filename "w"]
+    puts $fileId "all:"
+    puts $fileId "{"
+    puts $fileId "  $bit"
+    puts $fileId "}"
+    close $fileId
+    #exec bootgen -w on -image $filename -arch zynqmp -process_bitstream bin
+    exec bootgen -w on -image $filename -arch zynq -process_bitstream bin
+    puts "$filename created successfully"
+}
+```
+

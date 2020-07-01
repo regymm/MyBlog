@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Comic]Uptime Spectrum"
-data: 2019-04-05 16:00:00 +800
+data: 2020-04-05 16:00:00 +800
 comments: true
 categories: [Comic]
 ---

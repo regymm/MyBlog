@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "PYNQ Tutorial 3: Custom IP core and the Block Design"
-data: 2019-03-07 20:00:00 +800
+data: 2020-03-07 20:00:00 +800
 comments: true
 categories: [Tutorial]
 ---

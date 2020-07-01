@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Experience about moving to Linux"
-data: 2019-06-13 20:00:00 +800
+data: 2020-06-13 20:00:00 +800
 comments: true
 categories: [Experience]
 ---
