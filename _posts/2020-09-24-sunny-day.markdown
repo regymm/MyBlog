@@ -1,0 +1,9 @@
+---
+layout: post
+title: "[Comic]Sunny Day"
+data: 2020-09-24 22:00:00 +800
+comments: true
+categories: [Comic]
+---
+
+![](/MyBlog/images/mypaint-sunnyday.png)
