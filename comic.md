@@ -1,13 +1,13 @@
 ---
 layout: page
-title: Projects
-permalink: /projects/
+title: Comics
+permalink: /comic/
 ---
 
-<h2> Here're my projects, bothing active and finished! </h2>
+<h2> Here're my original webcomics </h2>
 <!--<ul>-->
   {% for post in site.posts %} 
-  {% if post.categories contains "Project" %}
+  {% if post.categories contains "Comic" %}
 	  {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       <span style="color:#828282;font-size:14px">{{ post.date | date: date_format }}</span>
 	  <br/>

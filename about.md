@@ -3,7 +3,7 @@ layout: page
 title: About
 permalink: /about/
 ---
-![Don't want to show my photo now](/images/deleted.jpg){:width="50%"}
+![Don't want to show my photo now, you can find it if you try](/images/deleted.jpg){:width="50%"}
 <!--<img src="/images/mypic3.jpg" width="60%"/>-->
 ## About Me
 I'm a physics student at University of Science and Technology of China, grade 2017. Love physics and programming, and reinventing the wheel.  

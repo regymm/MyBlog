@@ -5,15 +5,15 @@
 layout: home
 ---
 
-<h3 style="color:red; font-family:consolas;">[2020-11-01]I've been busy these days, so blog update will be postponed, maybe until 2021. </h3>
+<h3 style="color:red; font-family:consolas;">[2021-02-03]Checkout Projects and Comics at upper-right corner, more coming! </h3>
 <!--<h3 style="color:red; font-family:consolas;">You may need a proxy to use!</h3>-->
+<!--<h2>Here're all posts: blog article, comics, and projects.</h2>-->
+<!--<style>-->
+<!--body{-->
+<!--/*background-color:#002B36;*/-->
+<!--/*background-color:#fdf6e3;*/-->
+<!--/*color:#FFFFFF;*/-->
+<!--font-family: 'Consolas', Monaco, monospace;-->
 
-<style>
-body{
-/*background-color:#002B36;*/
-/*background-color:#fdf6e3;*/
-/*color:#FFFFFF;*/
-/*font-family: 'Consolas', Monaco, monospace;*/
-
-}
-</style>
+<!--}-->
+<!--</style>-->
