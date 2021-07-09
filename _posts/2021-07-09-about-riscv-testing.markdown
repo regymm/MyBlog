@@ -82,33 +82,7 @@ _start:
 	addi x1, zero, 0
 	addi x2, zero, 0
 	addi x3, zero, 0
-	addi x4, zero, 0
-	addi x5, zero, 0
-	addi x6, zero, 0
-	addi x7, zero, 0
-	addi x8, zero, 0
-	addi x9, zero, 0
-	addi x10, zero, 0
-	addi x11, zero, 0
-	addi x12, zero, 0
-	addi x13, zero, 0
-	addi x14, zero, 0
-	addi x15, zero, 0
-	addi x16, zero, 0
-	addi x17, zero, 0
-	addi x18, zero, 0
-	addi x19, zero, 0
-	addi x20, zero, 0
-	addi x21, zero, 0
-	addi x22, zero, 0
-	addi x23, zero, 0
-	addi x24, zero, 0
-	addi x25, zero, 0
-	addi x26, zero, 0
-	addi x27, zero, 0
-	addi x28, zero, 0
-	addi x29, zero, 0
-	addi x30, zero, 0
+	......
 	addi x31, zero, 0
 #	j _start
 
@@ -124,57 +98,11 @@ _start:
 	TEST(lui)
 	TEST(auipc)
 	TEST(j)
-	TEST(jal)
-	TEST(jalr)
-
-	TEST(beq)
-	TEST(bne)
-	TEST(blt)
-	TEST(bge)
-	TEST(bltu)
-	TEST(bgeu)
-
-	TEST(lb)
-	TEST(lh)
+	......
 	TEST(lw)
 	TEST(lbu)
 	TEST(lhu)
 
-	TEST(sb)
-	TEST(sh)
-	TEST(sw)
-
-	TEST(addi)
-	TEST(slti) // also tests sltiu
-	TEST(xori)
-	TEST(ori)
-	TEST(andi)
-	TEST(slli)
-	TEST(srli)
-	TEST(srai)
-
-	TEST(add)
-	TEST(sub)
-	TEST(sll)
-	TEST(slt) // what is with sltu ?
-	TEST(sltiu)
-	TEST(xor)
-	TEST(srl)
-	TEST(sra)
-	TEST(or)
-	TEST(and)
-
-	TEST(mulh)
-	TEST(mulhsu)
-	TEST(mulhu)
-	TEST(mul)
-
-	TEST(div)
-	TEST(divu)
-	TEST(rem)
-	TEST(remu)
-
-	TEST(simple)
 
 # void uart_putchar(char c)
 uart_putchar:
@@ -204,9 +132,8 @@ all:
 		-DTEST_FUNC_TXT='"andi"' -DTEST_FUNC_RET=andi_ret $(TESTS_PATH)/andi.S
 	$(RISCV_PATH)/riscv32-unknown-elf-gcc -c -march=rv32im -o $(TESTS_PATH)/and.o -DTEST_FUNC_NAME=and \
 
-.....
+...omitted... \
 
-		-DTEST_FUNC_TXT='"xor"' -DTEST_FUNC_RET=xor_ret $(TESTS_PATH)/xor.S
 	$(RISCV_PATH)/riscv32-unknown-elf-gcc -Os -ffreestanding -nostdlib -o firmware/firmware.elf \
 		-Wl,-Bstatic,-T,firmware/linker.ld \
 		firmware/start.o $(TESTS_PATH)/*.o -lgcc
@@ -229,7 +156,7 @@ SECTIONS
 
 Let it run, and that's all. 
 
-![rv32test](/MyBlog/rv32test.png)
+![rv32test](/MyBlog/images/rv32test.png)
 
 It tells clearly some `andi`-like and division instruction failed while other passed(of course, if `jalr`-like instructions failed, program counter may go wild and nothing will be printed). Then have a look at the failed test assembly, you may comment out them one by one, run again and see which failed. 
 
