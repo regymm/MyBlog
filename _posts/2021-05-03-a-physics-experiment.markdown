@@ -55,3 +55,5 @@ Recently I came across this on Sam Zeloof's Twitter(not sure if others are allow
 And now I know three months are far less time than required for something like this. 
 
 During that period, I read dozens of research papers related, on physics or chemical journals. I never felt so motivated to read papers before. But what I was doing is not research isn't it? It's just DIY and reinventing the wheel with extra steps. 
+
+However, this dream won't end. 
