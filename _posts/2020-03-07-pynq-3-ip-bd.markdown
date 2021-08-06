@@ -14,7 +14,7 @@ You may need basic knowledge about Vivado design procedure(like create source co
 
 **Notice:**
 
-Projects and source code used in this and the following tutorials are available at Github here: [github.com/ustcpetergu/PYNQ-Tutorial-Material](https://github.com/ustcpetergu/PYNQ-Tutorial-Material). 
+Projects and source code used in this and the following tutorials are available at Github here: [github.com/regymm/PYNQ-Tutorial-Material](https://github.com/regymm/PYNQ-Tutorial-Material). 
 
 Aiming at simple-to-use, these Vivado projects are directly added to git, instead of using better tcl methods. You can directly open the `.xpr` project files in Vivado and run simulations & other things. 
 

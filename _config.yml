@@ -17,7 +17,7 @@ title: Peter Gu's Blog
 description: # >- Hi, here. # this means to ignore newlines until "baseurl:"
 baseurl: "/MyBlog" # the subpath of your site, e.g. /blog
 url: "https://www.ustcpetergu.com/MyBlog/" # the base hostname & protocol for your site, e.g. http://example.com
-github_username:  ustcpetergu
+github_username:  regymm
 # Build settings
 markdown: kramdown
 #theme: jekyll-theme-cayman

@@ -213,7 +213,7 @@ gendocx('gen.docx', '1.png', '2.png', '3.png', 'slope, intercept: %f %f' % (slop
 
 既然都到了 Jupyter ，如果**多人合作**的话，[JupyterHub](https://github.com/jupyterhub/jupyterhub) 是非常不错的选择，可以多个人在一台服务器上使用 Jupyter Notebook 。我之前配置的是每个用户一个隔离的 Docker 容器，里面的 Python 已经装好了包，可以直接使用，同时挂载了一个共享空间可以分享写好的 Notebook 。其实 JupyterHub 有用 Github 帐号登录之类的权限管理功能，但当时我们是几个认识的人合作，就没有管这些。
 
-具体的代码在我的 [Github](https://github.com/ustcpetergu/physicsexp) 上，如果有人在写大物实验报告的过程中无聊了想找个地方摸鱼浪费点时间，不妨来看看。
+具体的代码在我的 [Github](https://github.com/regymm/physicsexp) 上，如果有人在写大物实验报告的过程中无聊了想找个地方摸鱼浪费点时间，不妨来看看。
 
 ## 总结
 
