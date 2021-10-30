@@ -1,0 +1,47 @@
+---
+layout: post
+title: "FPGA VT100 Terminal -- Blind Confidence"
+data: 2021-10-10 19:00:00 +800
+comments: true
+categories: [Experience]
+---
+
+**Part 1/4 -- Blind Confidence**
+
+> When the project began I thought I just want a perfboard, using JLCPCB's coupons . Then why not add some buttons and SMD pads to make it a matrix keyboard? As I have a spare Altera downloader, I then thought why not add a cheap and simple Altera MAX II CPLD to control the keyboard and interface via PMOD connectors? 
+> 
+> When it came to keyboard, it went incomplete -- output but no input. So, LCD screen was the next to come. I thought an LCD with Arduino interface would be compatible, though I don't and don't plan to have any Arduino yet. 
+
+What will you expect from something with a keyboard and a screen? A Terminal of course! Use it to communicate on serial ports. Hold it in hand and type. No more TTL-to-USB. Read characters and write then to LCD's graphics memory. Scan the matrix keyboard and send via UART. How hard would this be?
+
+Things worked out fine. 
+
+![](/MyBlog/images/vt100/ymmepm1.png)
+
+![](/MyBlog/images/vt100/ymmepm2.png)
+
+OK, now to program. Just a bit Verilog right?
+
+Well, datasheet first. The [LCD screen](http://www.lcdwiki.com/3.5inch_Arduino_Display-UNO) came with simple explanation that had little real use, and a complex datasheet of ILI9486 I don't know where to start. I thought these things would be trivial but the actual data passing through the simple-8-bit-parallel interface is quite complex. I turned to Arduino's driver code for help -- this was a correct move, but at that time I just didn't believe it's necessary to send a big bunch of "magic" numbers to the screen. Now I know these are used to configure detailed voltage and gamma of internals, but then ... 
+
+And, the 5V must be supplied to power on the display -- I thought 3V3 would be enough and lost hours staring at the dark screen that slightly changes when the now-known-correct command sequences are issued. 
+
+After that, powering on display and writing internal graphics memory were quite straight foward. Then it was time to let it display characters -- prepare a glyph bitmap table, read from UART RX and look up the character, print it or do things like jumping to next line when those control characters with small ASCII values appear. 
+
+Then, I realized I didn't understand what means a Terminal. Just think these questions: 
+
+ - In command line Ctrl-B to the middle of some command and type a new character. Following chars will move accordingly instead of being overwritten. Who does this kind of things? If you think it's OS and it's just like any other text boxes, I'll remind you that if you have zsh and command line syntax coloring enabled, they'll still work when connecting to remote servers via telnet, or more canonically, embedded Linux via serial port. Of course it won't be your Xfce Terminal doing syntax highlighting. 
+ - The only connection between the terminal emulator you're looking at and the Linux running on embedded system is the a 115200-baud serial wire. Yet things like `htop` still have fancy interfaces and don't feel laggy. 
+ - How much has ESC [ XXX control characters penetrated our life?
+
+The thing is call VT100. And CSI sequences. 
+
+At that time, it seemed supporting full VT100 had already been proved impossible. I thought parsing and dropping these CSI sequences would be easy, and I would still have a usable, comfortable Terminal. 
+
+Another problem was about scrolling. Normally when the last line is filled, the whole screen should scroll up a line, and let new content continue on the last line. But as the CPLD don't have any block RAM, so no buffer, and no scroll support. I decided to let new characters appear in the first line instead -- so still be able to see previous characters. Of course will need to clear the line and the following line to avoid messing-up characters. I thought this compromise was minor. 
+
+The last problem was speed. I was at 115200 baud, and I thought with 30 MHz clock, speed was not something to be concerned of -- my calculation showed that. 
+
+Of course all these thoughts were extremely wrong. 
+
+*To be continued ...*
