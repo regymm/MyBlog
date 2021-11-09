@@ -9,9 +9,9 @@ permalink: /friends/
 <h3><a href="" id="friendname"></a></h3>
 
 <p>Email me to have you added. </p>
-<p>Don't F12, please!</p>
 
 <!-- ordered randomly -->
+
 <script>
 var friendnamearray = [
 	'iBug',

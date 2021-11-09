@@ -12,7 +12,7 @@ The Terminal seems worked, but here and there incompatibilities arise.
 
 Because of my malformed scrolling, I have to erase old lines when there's new characters filling the old line or there's \n. But when? When the last space is filled or the first on the new line is needed? No matter which I use, there're some programs that misbehave, probably just `ls`. If you try UART loopback and run picocom, you can see that when the last space on a line is filled, screen won't scroll immediately. Instead, the cursor "disappear" in this scenario, and scroll is performed after next character. If you \r in this corner case, the cursor will just appear at the beginning of current line, since there's no scroll needed. I had to tolerate messed up lines sometimes. 
 
-Dropping VT100 characters still need to parse all the `^[[n;mH` or the 24-bit color control, `^[[1;2;3;4;5m` , and logic elements(LEs) were quickly exhausted. 
+Dropping VT100 characters still need to parse all the `^[[n;mH` or the 24-bit color control, `^[[1;2;3;4;5m` , as well as private sequences, `^[[?1049h` , and logic elements(LEs) were quickly exhausted. 
 
 I was certainly unhappy about this, especially when there's also an unused UFM flash memory on the EPM1270 chip. 
 
@@ -24,7 +24,7 @@ With extra LEs my desire grew, since I've already parsed and dropped the VT100 s
 
 With only cursor movements supported, I could get htop show it's first screen -- this little success drove me high and I implemented more, until I'm stuck in the middle and there's no going back. Meanwhile, To support `^[[nJ` or `^[[nK` , fine control of frame buffer memory addresses are needed, which easily explodes LEs. So I had to do tradeoff -- supporting none is worse than support half. Yes, just wipe a whole line or whole screen, this two wouldn't be hard. 
 
-They were not hard, but the price soon came -- they were too slow. Flushing frame buffer took longer than receiving a whole line of characters even at 115200 baud. UART Rx cache is the way to go, but EPM1270 has no block RAM to use, and I had only <15% LEs left. I then had to make the most reluctant decision -- add flow control. Additional wiring required. I had to learn about how to do this. In 2021 who use flow control on UART to USB module? 
+They were not hard, but the price soon came -- they were too slow. Flushing frame buffer took longer than receiving a whole line of characters even at 19200 baud. UART Rx cache is the way to go, but EPM1270 has no block RAM to use, and I had only <15% LEs left. I then had to make the most reluctant decision -- add flow control. Additional wiring required. I had to learn about how to do this. In 2021 who use flow control on UART to USB module? 
 
 You think it's the end? No!
 
@@ -32,7 +32,9 @@ Even now NetHack works without any problem, and I've already ported [my editor](
 
 ![](/MyBlog/images/vt100/terminal1.png)
 
-Weeks later, I made a new iCE40-HX1K board. I didn't think these two can combine until the new board is already in my hand. 
+Weeks later, I made a new iCE40-HX1K board. The free-software toolchain as well as fast compilation time gave me a refresh of spirit.  
+
+It's now long before I noticed these two can combine. 
 
 *To be continued ...*
 
