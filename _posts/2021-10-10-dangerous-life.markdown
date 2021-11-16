@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Comic]Dangerous Life"
-data: 2021-08-09 21:00:00 +800
+data: 2021-10-10 21:00:00 +800
 comments: true
 categories: [Comic]
 ---
