@@ -3,7 +3,7 @@ layout: post
 title: "EBAZ4205矿板上手评测"
 data: 2020-07-01 20:00:00 +800
 comments: true
-categories: [Experience]
+categories: [Experience, Chinese]
 ---
 
 **算是摘要吧**

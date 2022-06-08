@@ -3,7 +3,7 @@ layout: post
 title: "用 Python 处理大物实验数据"
 data: 2021-01-25 15:00:00 +800
 comments: true
-categories: [Experience]
+categories: [Experience, Chinese]
 ---
 
 This article is strongly related to my school, other people are not expected to find this very useful, so no translation intended. 

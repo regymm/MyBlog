@@ -1,13 +1,14 @@
 ---
 layout: page
-title: Projects
-permalink: /projects/
+title: 中文内容
+permalink: /chinese/
 ---
 
-<h2> Here're my projects, bothing active and finished! </h2>
+
+
 <!--<ul>-->
   {% for post in site.posts %} 
-  {% if post.categories contains "Project" %}
+  {% if post.categories contains "Chinese" %}
 	  {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       <span style="color:#828282;font-size:14px">{{ post.date | date: date_format }}</span>
 	  <br/>

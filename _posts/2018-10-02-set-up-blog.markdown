@@ -2,7 +2,7 @@
 layout:	post
 title:	"第一篇博客：使用Github Pages搭建博客"
 date:	2018-10-02 14:44:00 +0800
-categories: [Tutorial]
+categories: [Tutorial, Chinese]
 ---
 听说Github Pages有搭建博客的功能，在这国庆节清闲之时搭了一个，感觉还不错，准备用来记录我学习和折腾的经历以及心得体会。本人能力有限，内容若有错误或不当之处还请指教，联系方式见About页面。   
 # 用Github Pages搭建博客过程简述  

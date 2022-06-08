@@ -2,7 +2,7 @@
 layout:	post
 title:	"命令行故事"
 date:	2020-05-02 23:00:00 +0800
-categories: [Experience]
+categories: [Experience, Chinese, Artwork]
 ---
 > 或许当你成为熟练的命令行用户之后，却发现自己为其所困，在使用命令行时从“提高生产力和快乐”变成了“因为种种原因生产力降低、失去快乐”：至少我有时会这样。或许...
 
