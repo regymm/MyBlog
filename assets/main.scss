@@ -4,7 +4,7 @@
 @import "minima";
 
 .home > h4 {
-  color: red;
+  color: #d30102;
   font-family: Consolas, Monaco, monospace;
   font-size: 18px;
   margin-top: -4px;
@@ -26,7 +26,7 @@
 }
 
 .artdate {
-	color: #828282;
+	color: #586e75;
 	font-size: 15px;
 	width: 90px;
 	display: inline-block;
@@ -34,7 +34,7 @@
 }
 
 .artdate_main {
-	color: #828282;
+	color: #586e75;
 	font-size: 15px;
 	width: 90px;
 	display: inline-block;
@@ -47,5 +47,25 @@ article div:last-of-type {
 
 body {
 	font-size: 18px;
+	background-color: #fdf6e3;
 	//color: #ff0000;
+}
+
+a {
+	color: #268bd2;
+}
+a:visited {
+	color: #268bd2;
+}
+a:hover {
+	color: #6c71c4;
+}
+
+.site-header {
+	border-top: none;
+	border-bottom: none;
+}
+.site-footer {
+	border-top: none;
+	padding: 0;
 }

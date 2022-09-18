@@ -6,10 +6,11 @@ layout: page
 ---
 
 <div class="home">
-<h4 style="color:red; font-family:consolas;">[2022-06-08]A lot of comic arrived recently! </h4>
-<h4 style="color:red; font-family:consolas;">[2021-08-27]RSS problem fixed: <a href="https://www.ustcpetergu.com/MyBlog/feed.xml">here</a>  </h4>
-<h4 style="color:red; font-family:consolas;">[2021-08-27]Added Friends column -- Email me to have you added! </h4>
-<h4 style="color:red; font-family:consolas;">[2021-02-03]Checkout Projects and Comics at upper-right corner, more coming! </h4>
+<h4>[2022-09-18]Various website rearrangements </h4>
+<h4>[2022-06-08]A lot of comic arrived recently! </h4>
+<h4>[2021-08-27]RSS problem fixed: <a href="https://www.ustcpetergu.com/MyBlog/feed.xml">here</a>  </h4>
+<h4>[2021-08-27]Added Friends column -- Email me to have you added! </h4>
+<h4>[2021-02-03]Checkout Projects and Comics at upper-right corner, more coming! </h4>
 </div>
 
 <ul class="post-list">

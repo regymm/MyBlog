@@ -3,7 +3,7 @@ layout: post
 title: "A Failed Attempt of Chip Making - Writeup"
 data: 2021-05-03 19:00:00 +800
 comments: true
-categories: [Experience]
+categories: [Experience, Project]
 ---
 
 In the first semester of the third year, their's a course called "research-oriented physics experiment" in which we form groups and choose experimental subjects from solar cells making to quantum dot preparation. And somehow, I came up an idea, why not try making some chips? A quick search gave Jeri Ellsworth and Sam Zeloof's Youtube video -- less than half an hour's tutorial and working transistors? Not bad! I don't know what my teammates thought but for me it's especially like diving into the deepest level of the Age of Information. 
