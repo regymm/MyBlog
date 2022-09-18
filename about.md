@@ -3,19 +3,18 @@ layout: page
 title: About
 permalink: /about/
 ---
-<!--![Don't want to show my photo now, you can find it if you try](/images/deleted.jpg){:width="50%"}-->
 
 <img src="/MyBlog/images/avatar/1.jpg" width="50%"/>
 
 *The Memory Mountain*
 
-<img src="/images/mypic3.jpg" width="50%"/>
+<p>[REDACTED]</p>
 
 *You can find lots of photos and videos of me if you try hard*
 
 ## Me
 
-Physics post-undergrad student, University of Science and Technology of China(2017-2021), Future Fate Undetermined(2022-). Love physics and programming, hardware tweaking, and reinventing the wheel. 
+Physics post-undergrad student, University of Science and Technology of China(2017-2021), Future Fate Undetermined(2022-). Love physics and programming, hardware tweaking, and reinventing the wheel -- so much hobbies isn't it. 
 
 My long-term interest is amateur osdev with custom RISC-V core/peripheral on FPGA. 
 
@@ -27,7 +26,7 @@ Blogs and comics, recently more comics than blogs, about tech stuff and sometime
 
 And I am a crappy NetHack player: Delightful in darkness, delicious in dungeon. 
 
-I also like Mindustry, Undertale, Darkest Dungeon, Hollow Knight, Dead Cells, and a lot more games. 
+I also like Undertale, Darkest Dungeon, Hollow Knight, Mindustry, Dead Cells, and a lot more games. 
 
 ## Contact
 Email：`echo dXN0Y3ltZ3VAZ21haWwuY29tCg== | base64 -d` 
