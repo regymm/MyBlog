@@ -1,0 +1,14 @@
+---
+layout: post
+title: "[Comic] 又是一条好汉"
+data: 2023-04-03 21:00:00 +800
+comments: true
+categories: [Comic, Chinese]
+---
+
+(no translation intended for culture-specific content)
+
+![](/MyBlog/images/comic-respawn.png)
+
+
+
