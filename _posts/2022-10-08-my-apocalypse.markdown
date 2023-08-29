@@ -4,6 +4,10 @@ title:	"My Apocalypse"
 date:	2022-10-08 22:00:00 +0800
 categories: [Experience, Artwork]
 ---
+![](/MyBlog/images/my-apocalypse.png)
+
+*(Art inspired by Hyper Light Drifter)*
+
 *WARNING: this passage makes no sense.*
 
 **Part I**
@@ -62,8 +66,6 @@ In the ourside world meanwhile, millions of electronics roars on, and we rely on
 
 Then if this is not coming apocalypse, what is?
 
-![](/MyBlog/images/my-apocalypse.png)
 
-*(Art inspired by Hyper Light Drifter)*
 
 2022.10.8 by regymm, licensed under CC-BY-SA 4.0
