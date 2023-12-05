@@ -1,0 +1,65 @@
+---
+layout: post
+title: "Open-source FPGA Toolchains on ARM"
+data: 2023-12-05 21:00 +800
+comments: true
+categories: [Experience]
+---
+
+Time flies fast, it's not a long time ago that an ARM processor was not what to be seen on a decent laptop computer. Now there's M1/M2/M3 Apple machines, and there will be Snapdragon X Elite coming soon. Supporting software are also in good trend, but if you're a FPGA player, you know that there's a certain piece of software, called "Vivado", that is not on the list. 
+
+Luckily, what seems impossible in the old days is now available: we have open-source toolchain, [OpenXC7](https://github.com/OpenXC7), for Xilinx 7-series FPGA development. And it works on ARM. Of course it won't have fancy features like Integrated Logic Analyzer or Block Designs, but is more than enough for most use cases. 
+
+For the purposed of online compiling services, the toolchain is built Dockerized -- and the ARM one just built smoothly without any extra effort. [Here](https://github.com/FPGAOL-CE/osstoolchain-docker-things) you can find a bunch of ready-to-use Dockerized toolchains. 
+
+Here we performed benchmark of the toolchain on various machines, and compared the following aspects:
+
+**Toolchain build time**: time spent for OpenXC7 Docker build, which contains compiling yosys, nextpnr-xilinx, and prjxray, with initial APT upgrade & update time excluded. This is the typical workload of software compilation. 
+
+**Project compilation time**: compilation time for FPGA projects, that includes: 
+
+- [**blinky**](https://github.com/FPGAOL-CE/user-examples/tree/main/basys3), the simplest demo. 
+
+- [**picorv32**](https://github.com/FPGAOL-CE/picorv32-caas), the well-known RISC-V core and SoC. 
+
+- [**TetriSaraj**](https://github.com/FPGAOL-CE/openXC7-TetriSaraj), a Tetris game that runs on picorv32 based SoC, contains modules like VGA display, one of the reference designs for OpenXC7.  
+
+  The code runs through yosys, nextpnr, fasm2frames and xc7frame2bit. Fast FASM generator not available in compilation. 
+
+The results are compared for 3 machines: 
+
+- The x86 desktop with a mid-2019 CPU but decent setup: **Ryzen 3700X 16-core, 64 GB memory**
+- The ARM server (generously, because it's always-free tier) from Oracle Cloud, dates back to 2020: **Ampere A1 4-core, 24 GB memory**
+- The MacBook Air that already gained some age (2020): **M1 8-core, 8 GB memory**
+<!-- - The MacBook Air that's still quite decent (2022): **M2 8-core, 24 GB memory** -->
+
+|                               | Toolchain Build | Blinky | PicoRV32 | TetriSaraj |
+| ----------------------------- | --------------- | ------ | -------- | ---------- |
+|x86, Vivado|-|50 s|1 m 13 s|2 min 8 s|
+| x86, OpenXC7 | 8 m 30 s        | 6 s    | 1 m 8 s  | 2 min 21 s |
+| Ampere A1 | 17 m 28 s       | 8 s    | 1 m 40 s | 3 min 14 s |
+| Apple M1          | 9 m 44 s*       | 6 s    | 1 m 55 s | 3 min 30 s |
+
+**nextpnr-xilinx is built by single-core due to problems with multicore compilation (due to memory order?).* 
+
+**First is the toolchain build time.** 
+
+Apple M1 really stands out here: even the multicore compilation is partly disabled, the 9 m 44 s build time nearly reaches the 8 m 30 s 16-core 3700X no-mercy desktop workstation. Just like the news about M1 overperforming Intel i9 when compiling the Linux kernel, it's also very good at this compilation workload. On Ampere M1, the performance is much, much lower -- Reasons unknown, but possibly because of the low storage device performance of the cloud server. 
+
+**Then, the real project compilation times.** 
+
+Vivado and OpenXC7 compilation shows clearly that for very small projects like blinky, OpenXC7 has a much smaller overhead. Vivado takes more than 6 seconds just to start up, even in batch TCL mode. In online compilation services and educational cases, the low overhead can make users/students feel much better -- imagine 7-series but with ice40-style fast iteration. 
+
+In PicoRV32, this overhead kinda balanced with its performance, and in TetriSaraj, it outperformed OpenXC7 a little bit. Vivado, the official Xilinx IDE, will certainly win the match if a even bigger project is compiled. I didn't compare in-detail the timing information, but Vivado does generally provide a better timing than yosys/nextpnr. Obviously, the open-source toolchains are not ready to replace Vivado in recent months, but if your project is on the same level as these test projects and not some industrial beasts, OpenXC7 is definitely worth trying. 
+
+About OpenXC7 on ARM, the performance is around 30% lower than the 3700X. But the interesting thing is Ampere A1 outperformed the Apple M1 by around 10%. Memory might be the cause, but note that the Docker container is allocated only 8 GB memory on every machine. Then, either Ampere A1 core has power above expectation, or Apple silicon's tightly coupled memory architecture doesn't benefit this particular FPGA workload. But anyway, 7-series FPGA dev on ARM machine is coming true -- if you don't want to use that Integrated Logic Analyzer. 
+
+**More?**
+
+Recently running Vivado on Apple silicon with translation layers [has been attempted](https://github.com/ichi4096/vivado-on-silicon-mac), but it's too much for now. And, I really want to see what the performance will be like on Apple M1 Max/Ultra and M2 devices with bigger memories -- I believe they'll outperform the Ampere, but how much? Can they run faster than the 13-th generation Intel i7 desktop? I'll place my bet on a no. But who knows? 
+
+I've "promoted" the open source FPGA toolchains to various students in the same class or so, but few people really tried. Maybe there's already a pain (Vivado) and they don't want another? Or the installation is complicated? Anyway, if the service moves online, and the flow is smooth enough as clicking "Generate Bitstream" and opening hardware manager, thing may be different. And that's what I want to do. 
+
+I also encountered this website which documents a wide bunch of FPGA toolchain combinations (some partly open-source, partly Vivado, including a XCZU7EV somehow) and their statuses, containing pass/fail, build time, utilization, etc: [https://github.com/chipsalliance/fpga-tool-perf](https://github.com/chipsalliance/fpga-tool-perf). Not zealot enough to dig into it though. 
+
+In the end, let's just hope, today's 7-series will become tomorrow's ice40. 
