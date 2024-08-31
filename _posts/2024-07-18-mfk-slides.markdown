@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "[Special] An Attempt to Make Transistors -- MFK2024 Talk"
-data: 2024-01-30 21:00:00 +800
+data: 2024-07-18 21:00:00 +800
 comments: true
 categories: [Experience]
 ---
