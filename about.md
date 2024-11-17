@@ -35,7 +35,7 @@ Github：[regymm](https://github.com/regymm)
 
 Twitter：[regymm0](https://twitter.com/regymm0) - for my status update on projects
 
-Telegram：[Message](https://t.me/regymm0) [Channel](https://t.me/xtalhart) - for my personal stuff and minor updates. Often forwarded to Twitter
+Telegram：[Message](https://t.me/petergu8022) [Channel](https://t.me/xtalhart) - for my personal stuff and minor updates. Often forwarded to Twitter
 
 Homepage：[regymm.github.io](https://regymm.github.io) - you'll be re-directly to a dedicated domain, but this is the always-valid one. 
 
