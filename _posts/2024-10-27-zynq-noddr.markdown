@@ -105,11 +105,7 @@ It's done by the PCAP interface. In brief, the bitstream is put into a serial me
 
 One major task in No-DDR SD boot is that the bitstream in QSPI Flash is memory-mapped, and can be used for executin-in-place (XIP). This allows a single DMA requires to be issued to load the whole bitstream, with a size larger than the OCM, into the PL. 
 
-Here's the memory layout of Zynq bootstage w/o DDR, and certainly the only large-enough block to hold the bitstream is the QSPI. 
-
-![img](https://media-cdn.atlassian.com/file/158e4333-9bd4-49b4-a431-3c46b6774c7f/image/cdn?allowAnimated=true&client=c8f23452-197b-43cc-9b09-f1f20821c6a6&collection=contentId-2418900993&height=125&max-age=2592000&mode=full-fit&source=mediaCard&token=eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJjOGYyMzQ1Mi0xOTdiLTQzY2MtOWIwOS1mMWYyMDgyMWM2YTYiLCJhY2Nlc3MiOnsidXJuOmZpbGVzdG9yZTpjb2xsZWN0aW9uOmNvbnRlbnRJZC0yNDE4OTAwOTkzIjpbInJlYWQiXX0sImV4cCI6MTc2ODY0NDE3OSwibmJmIjoxNzY4NjQxMjk5LCJodHRwczovL2lkLmF0bGFzc2lhbi5jb20vYXBwQWNjcmVkaXRlZCI6ZmFsc2V9.GK2aZvseTkEq9y8KRM7e3MXJy5aO6qsDmCikBJGsyjg&width=340)
-
-
+[Here's](https://xilinx-wiki.atlassian.net/wiki/spaces/A/pages/2418900993/Zynq+7000+Tips+and+Tricks#OCM) the memory layout of Zynq bootstage w/o DDR, and certainly the only large-enough block to hold the bitstream is the QSPI. 
 
 ## No one had done it, but it works
 
