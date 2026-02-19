@@ -10,7 +10,7 @@ Time flies fast, it's not a long time ago that an ARM processor was not what to 
 
 Luckily, what seems impossible in the old days is now available: we have open-source toolchain, [OpenXC7](https://github.com/OpenXC7), for Xilinx 7-series FPGA development. And it works on ARM. Of course it won't have fancy features like Integrated Logic Analyzer or Block Designs, but is more than enough for most use cases. 
 
-For the purposed of online compiling services, the toolchain is built Dockerized -- and the ARM one just built smoothly without any extra effort. [Here](https://github.com/FPGAOL-CE/osstoolchain-docker-things) you can find a bunch of ready-to-use Dockerized toolchains. 
+For the purposes of online compiling services, the toolchain is built Dockerized -- and the ARM one just built smoothly without any extra effort. [Here](https://github.com/FPGAOL-CE/osstoolchain-docker-things) you can find a bunch of ready-to-use Dockerized toolchains. 
 
 Here we performed benchmark of the toolchain on various machines, and compared the following aspects:
 
