@@ -6,6 +6,8 @@ layout: page
 ---
 
 <div class="home">
+<img src="/MyBlog/images/aifreecontent.png" width="40%"/>
+<h4>[2026-03-20]*This blog does not contain AI-generated contents(text, image, code, etc.) unless otherwise stated.  </h4>
 <h4>[2022-09-18]Various website rearrangements </h4>
 <h4>[2022-06-08]A lot of comic arrived recently! </h4>
 <h4>[2021-08-27]RSS problem fixed: <a href="https://www.ustcpetergu.com/MyBlog/feed.xml">here</a>  </h4>
@@ -24,3 +26,8 @@ layout: page
 </li>
 {% endfor %}
 </ul>
+
+<div style="font-size: 16px">
+    <img src='https://licensebuttons.net/l/by-sa/4.0/88x31.png'/>
+    This work is licensed under the <a href='https://creativecommons.org/licenses/by-sa/4.0/deed.en'>Creative Commons BY-SA 4.0 International License</a>, if not explicitly specified. 
+</div>

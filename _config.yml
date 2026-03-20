@@ -27,6 +27,7 @@ feed:
   path: feed.xml
   url: "https://regymm.github.io/"
 header_pages:
+  - blog.md
   - comic.md
   - friends.md
   - about.md
