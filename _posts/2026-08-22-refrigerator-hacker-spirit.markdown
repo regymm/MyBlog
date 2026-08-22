@@ -38,6 +38,8 @@ So what's the best solution? As I found out the no options IS the best solution.
 
 Will you think the same when witnessing a noisy refrigerator? What's your hacker spirit? 
 
+![](/MyBlog/images/compressor.png)
+
 ---
 
 I cloned the blog repo on my laptop before departure, hoping to jot down a few lines during a trip, but no surprise, nothing was touched during the whole week. 
