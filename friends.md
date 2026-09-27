@@ -4,7 +4,25 @@ title: Friends
 permalink: /friends/
 ---
 
-#### Today RNG blessed ...
+
+
+| Name         | Link                                  | Last accessed |
+| ------------ | ------------------------------------- | ------------- |
+| iBug         | https://ibug.io                       | 2609          |
+| taoky        | https://www.taoky.moe                 | 2609          |
+| Elsa Granger | https://elsagranger.com               | 2609          |
+| Zeka         | https://flag.zeka.cloud               | 2609          |
+| Totoro       | https://yyw.moe                       | 2609          |
+| myl7         | https://myl7.org/                     | 2609          |
+| loliw        | https://loliw.moe                     | 2609          |
+| Catoverflow  | https://cathy-cai.page/               | 2609          |
+| sirius       | https://sirius1242.github.io          | 2609          |
+| Libre Liu    | https://blog.libreliu.info            | 2609          |
+| Simba        | http://www.simbaondiet.com            | ????          |
+| Zi-Yue Wang  | https://web.physics.ucsb.edu/~zi-yue/ | 2609          |
+| Ziyao        | https://blog.ziyao.cc                 | 2609          |
+
+
 
 <h3><a href="" id="friendname"></a></h3>
 
@@ -48,6 +66,7 @@ function randomm() {
 	return x - Math.floor(x);
 }
 var r = Math.floor(randomm()*friendurlarray.length);
-document.getElementById("friendname").innerHTML = friendnamearray[r];
-document.getElementById("friendname").href = friendurlarray[r];
+//document.getElementById("friendname").innerHTML = friendnamearray[r];
+//document.getElementById("friendname").href = friendurlarray[r];
 </script>
+
