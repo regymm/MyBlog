@@ -1,10 +1,12 @@
 ---
 layout: post
 title: "A noisy refrigerator and the hacker spirit"
-data: 2025-08-22 17:00:00 +800
+data: 2026-08-22 17:00:00 +800
 comments: true
 categories: [Experience]
 ---
+
+![](/MyBlog/images/compressor.png)
 
 Have you ever stayed in a hotel room with a refrigerator? The periodic buzzing might be a minor hassle, but either unplugging the power cord or using up a pair of earplugs from the drawers of the nightstand makes a quick solution. 
 
@@ -38,7 +40,7 @@ So what's the best solution? As I found out the no options IS the best solution.
 
 Will you think the same when witnessing a noisy refrigerator? What's your hacker spirit? 
 
-![](/MyBlog/images/compressor.png)
+
 
 ---
 
